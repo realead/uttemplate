@@ -13,6 +13,19 @@ def find_unused_name(name, all_names):
         cand=name+str(try_cnt)
    return cand
 
-def tests_from_template_fun(fun, target_cls, types):
-    pass
+
+
+__TEST_CASE_PREFIX="test_from_"
+__TEST_CASE_MIDDLE="_for_"
+
+def mangle_name(name):
+    return __TEST_CASE_PREFIX+name+__TEST_CASE_MIDDLE
+
+def tests_from_free_function(fun, target_cls, types):
+    for my_type in types:
+        method_name=mangle_name(fun.__name__)+my_type.__name__
+        method_name=find_unused_name(method_name, target_cls.__dict__) 
+        setattr(target_cls, method_name, lambda x, inner_type=my_type: fun(inner_type))#x=self
+
+
     
