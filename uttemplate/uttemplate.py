@@ -28,4 +28,9 @@ def tests_from_free_function(fun, target_cls, types):
         setattr(target_cls, method_name, lambda x, inner_type=my_type: fun(inner_type))#x=self
 
 
+def tests_from_member(fun, target_cls, types):
+    for my_type in types:
+        method_name=mangle_name(fun.__name__)+my_type.__name__
+        method_name=find_unused_name(method_name, target_cls.__dict__) 
+        setattr(target_cls, method_name, lambda x, inner_type=my_type: fun(x, inner_type))#x=self
     

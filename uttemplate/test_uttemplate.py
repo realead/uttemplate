@@ -43,7 +43,7 @@ class TestFromFreeFunction(unittest.TestCase):
         class A:
             def test_from_fun_for_list(self):
                 return 55
-            pass         
+                     
         def fun(class_type):
                 return class_type.__name__
                 
@@ -58,5 +58,39 @@ class TestFromFreeFunction(unittest.TestCase):
         
         
         
+class TestFromMember(unittest.TestCase):
+    def test_add_normal(self):
+        class A:
+            def print_name(self, class_type):
+                return class_type.__name__
+                
+        clses=[list, set, dict]                           
+        uttemplate.tests_from_member(getattr(A.print_name), A, clses)
         
+        magled=uttemplate.mangle_name("print_name")
+        
+        a=A()
+        for cls in clses:
+            fun_name=magled+cls.__name__
+            self.assertTrue(magled+cls.__name__ in A.__dict__)#the fun is here
+            fun =  getattr(a, fun_name, None)
+            self.assertEquals(fun(), cls.__name__)#it does the right thing
+
+    def test_add_to_existing(self):
+        class A:
+            def test_from_fun_for_list(self):
+                return 55
+            def fun(self, class_type):
+                return class_type.__name__
+                
+        clses=[list]                           
+        uttemplate.tests_from_member(A.fun, A, clses)
+        
+        a=A()
+        self.assertTrue("test_from_fun_for_list" in A.__dict__)#old
+        self.assertEquals(a.test_from_fun_for_list(), 55)
+        self.assertTrue("test_from_fun_for_list1" in A.__dict__)#new
+        self.assertEquals(a.test_from_fun_for_list1(), "list")
+        
+           
 
