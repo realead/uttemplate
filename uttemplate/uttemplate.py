@@ -33,4 +33,13 @@ def tests_from_member(fun, target_cls, types):
         method_name=mangle_name(fun.__name__)+my_type.__name__
         method_name=find_unused_name(method_name, target_cls.__dict__) 
         setattr(target_cls, method_name, lambda x, inner_type=my_type: fun(x, inner_type))#x=self
-    
+  
+  
+  
+def tests_from_templates(cls, types):
+    for name, m in inspect.getmembers(cls, inspect.ismethod):
+        if name.startswith("template_"):
+            tests_from_member(m, cls, types)
+            
+            
+            
