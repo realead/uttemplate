@@ -231,5 +231,34 @@ class TestForTypesDecorator(unittest.TestCase):
     def template_two(self, my_type):
          self.assertFalse(my_type in [int, float])         
          
-         
-         
+
+## readme examples:
+
+def create_test_obj(type4test):
+   if(type4test==list):
+        return [0]*5
+   else:
+        return {3:0}
+        
+@uttemplate.from_templates([list, set, dict])
+class TestBasics(unittest.TestCase):
+    def template_are_empty(self, type4test):
+        self.assertEquals(len(type4test()), 0) 
+        
+    @uttemplate.for_types([list, dict])
+    def template_getitem(self, type4test):
+            obj=create_test_obj(type4test)
+            self.assertEquals(obj[3], 0)     
+          
+    @uttemplate.for_types([0, 2, 4])
+    def template_is_even(self, number):
+            self.assertEquals(number % 2, 0)          
+  
+  
+@uttemplate.from_templates()
+class TestAllSpecial(unittest.TestCase):            
+    @uttemplate.for_types([0, "dfadfs", 0.0])
+    def template_is_even(self, obj):
+            self.assertFalse(obj.__class__ is list)  
+            
+                 
