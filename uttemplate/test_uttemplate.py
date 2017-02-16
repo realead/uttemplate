@@ -194,3 +194,16 @@ class TestFromTemplates(unittest.TestCase):
                 self.assertEquals(fun(), expected)#it does the right thing
                              
 
+@uttemplate.from_templates([list, set])
+class RunDecoratorTests(unittest.TestCase):
+    def template_check_name(self, class_type):
+        self.assertTrue(uttemplate.mangle_name("template_check_name")+class_type.__name__ in RunDecoratorTests.__dict__) 
+
+
+@uttemplate.from_nonmember(RunDecoratorTests, [dict, RunDecoratorTests])
+def template_check_name(class_type, self=None):
+        self.assertTrue(uttemplate.mangle_name("template_check_name")+class_type.__name__ in RunDecoratorTests.__dict__) 
+        
+        
+        
+
