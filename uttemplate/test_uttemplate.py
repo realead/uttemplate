@@ -21,6 +21,27 @@ class FindUnusedNameTester(unittest.TestCase):
         
         
 class TestFromFreeFunction(unittest.TestCase):
+    def test_as_decorator(self):
+        class A:
+            pass  
+            
+        clses=[list, set, dict]
+        @uttemplate.from_nonmember(A, clses)           
+        def print_name(class_type):
+                return class_type.__name__
+          
+        #function ok?       
+        self.assertEqual(print_name(list), "list")
+        
+        magled=uttemplate.mangle_name("print_name")    
+        a=A()
+        for cls in clses:
+            fun_name=magled+cls.__name__
+            self.assertTrue(magled+cls.__name__ in A.__dict__)#the fun is here
+            fun =  getattr(a, fun_name, None)
+            self.assertEquals(fun(), cls.__name__)#it does the right thing
+            
+            
     def test_add_normal(self):
         class A:
             pass         
@@ -56,9 +77,12 @@ class TestFromFreeFunction(unittest.TestCase):
         self.assertTrue("test_from_fun_for_list1" in A.__dict__)#new
         self.assertEquals(a.test_from_fun_for_list1(), "list")
         
-        
+       
         
 class TestFromMember(unittest.TestCase):
+    #not (yet) possible
+    #def test_as_decorator(self):
+
     def test_add_normal(self):
         class A:
             def print_name(self, class_type):
@@ -95,6 +119,24 @@ class TestFromMember(unittest.TestCase):
 
 
 class TestFromTemplates(unittest.TestCase):
+    def test_as_decorator(self):
+        clses=[list, set, dict]
+        
+        @uttemplate.from_templates(clses)
+        class A:
+            def template_one(self, class_type):
+                return class_type.__name__
+
+        magled=uttemplate.mangle_name("template_one")
+        
+        a=A()
+        for cls in clses:
+            fun_name=magled+cls.__name__
+            self.assertTrue(magled+cls.__name__ in A.__dict__)#the fun is here
+            fun =  getattr(a, fun_name, None)
+            self.assertEquals(fun(), cls.__name__)#it does the right thing
+            
+            
     def test_add_normal(self):
         class A:
             def template_one(self, class_type):

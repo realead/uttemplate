@@ -42,4 +42,22 @@ def tests_from_templates(cls, types):
             tests_from_member(m, cls, types)
             
             
-            
+#decorators:
+def from_nonmember(target_cls,types):
+    def decorator(fun, target_cls=target_cls, types=types):
+        tests_from_free_function(fun, target_cls, types)
+        return fun
+    return decorator
+
+def from_templates(types):
+    def decorator(cls, types=types):
+        tests_from_templates(cls, types)
+        return cls
+    return decorator
+    
+#no decorator from member, because  the class can not be changed before complete    
+#def from_member(target_cls, types):
+#    def decorator(m, target_cls=target_cls, types=types):
+#        tests_from_member(fun, target_cls, types)        
+#    return decorator
+           
