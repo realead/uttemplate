@@ -58,7 +58,7 @@ def from_nonmember(target_cls,types):
         return fun
     return decorator
 
-def from_templates(types):
+def from_templates(types=[]):
     def decorator(cls, types=types):
         tests_from_templates(cls, types)
         return cls
