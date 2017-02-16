@@ -211,7 +211,7 @@ def template_check_name(class_type, self=None):
         self.assertTrue(uttemplate.mangle_name("template_check_name")+class_type.__name__ in RunDecoratorTests.__dict__) 
         
         
-
+@uttemplate.from_templates([list])
 class TestForTypesDecorator(unittest.TestCase):
 
     def test_types_attribute(self):
@@ -223,6 +223,13 @@ class TestForTypesDecorator(unittest.TestCase):
         self.assertEqual(len(fun.uttemplate_types), 3)
         for clsRec, clsExp in zip(fun.uttemplate_types, [list, set, dict]):
             self.assertTrue(clsRec==clsExp)
+     
+    @uttemplate.for_types([int, float])   
+    def template_one(self, my_type):
+         self.assertTrue(my_type!=list)
         
-               
-
+    def template_two(self, my_type):
+         self.assertFalse(my_type in [int, float])         
+         
+         
+         

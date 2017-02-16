@@ -39,7 +39,8 @@ def tests_from_member(fun, target_cls, types):
 def tests_from_templates(cls, types):
     for name, m in inspect.getmembers(cls, inspect.ismethod):
         if name.startswith("template_"):
-            tests_from_member(m, cls, types)
+            for_types = types if not hasattr(m, "uttemplate_types") else m.uttemplate_types
+            tests_from_member(m, cls, for_types)
             
             
 #decorators:
