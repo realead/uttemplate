@@ -35,10 +35,11 @@ def tests_from_member(fun, target_cls, types):
         setattr(target_cls, method_name, lambda x, inner_type=my_type: fun(x, inner_type))#x=self
   
   
-  
+__TEMPLATE_PREFIX="template_"  
+
 def tests_from_templates(cls, types):
     for name, m in inspect.getmembers(cls, inspect.ismethod):
-        if name.startswith("template_"):
+        if name.startswith(__TEMPLATE_PREFIX):
             for_types = types if not hasattr(m, "uttemplate_types") else m.uttemplate_types
             tests_from_member(m, cls, for_types)
             
