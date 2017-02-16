@@ -198,6 +198,12 @@ class TestFromTemplates(unittest.TestCase):
 class RunDecoratorTests(unittest.TestCase):
     def template_check_name(self, class_type):
         self.assertTrue(uttemplate.mangle_name("template_check_name")+class_type.__name__ in RunDecoratorTests.__dict__) 
+        
+    def test_all_functions_here(self):
+       clses=[list, set, dict, RunDecoratorTests]
+       for cls in clses:
+          self.assertTrue(uttemplate.mangle_name("template_check_name")+cls.__name__ in RunDecoratorTests.__dict__)
+       
 
 
 @uttemplate.from_nonmember(RunDecoratorTests, [dict, RunDecoratorTests])
@@ -205,5 +211,18 @@ def template_check_name(class_type, self=None):
         self.assertTrue(uttemplate.mangle_name("template_check_name")+class_type.__name__ in RunDecoratorTests.__dict__) 
         
         
+
+class TestForTypesDecorator(unittest.TestCase):
+
+    def test_types_attribute(self):
+        @uttemplate.for_types([list, set, dict])
+        def fun():
+            pass        
+        self.assertTrue("uttemplate_types" in fun.__dict__)
         
+        self.assertEqual(len(fun.uttemplate_types), 3)
+        for clsRec, clsExp in zip(fun.uttemplate_types, [list, set, dict]):
+            self.assertTrue(clsRec==clsExp)
+        
+               
 

@@ -54,6 +54,13 @@ def from_templates(types):
         tests_from_templates(cls, types)
         return cls
     return decorator
+
+def for_types(types):
+    def decorator(fun, types=types):
+        fun.uttemplate_types=types
+        return fun
+    return decorator
+    
     
 #no decorator from member, because  the class can not be changed before complete    
 #def from_member(target_cls, types):
