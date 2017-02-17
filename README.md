@@ -22,13 +22,13 @@ This project augments the `unittest` module with a similar functionality.
 
 There are two ingridients: 
 
- 1. a class method which starts with `"template_"` and has signature 
+ 1. a class method whose name starts with `"template_"` and has signature 
      
-     `fun_name(self, type_for_test)`
+     `template_name(self, type_for_test)`
      
  2. the class-decorator `from_templates`
     
-For example, we would like to assert, that the newly created `list`, `set`and `dict` instances are empty:
+For example, we would like to assert, that newly created instances of `list`, `set`and `dict` are empty:
 
     import unittest
     import uttemplate
@@ -39,7 +39,7 @@ For example, we would like to assert, that the newly created `list`, `set`and `d
         def template_is_empty(self, type4test):
             self.assertEquals(len(type4test()), 0)
             
-run your tests, for example via
+Now, run your tests, for example via
 
     python -m unittest discover -s <your_test_folder>
             
