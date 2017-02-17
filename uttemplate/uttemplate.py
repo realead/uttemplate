@@ -1,10 +1,8 @@
-
-
 import inspect
 
 
 #finds a name not in dictionary:
-#it's your problem if you try to use strange names...
+#checks for name, name1, name2, name3 and so on
 def find_unused_name(name, all_names):
    cand=name
    try_cnt=0
@@ -14,7 +12,7 @@ def find_unused_name(name, all_names):
    return cand
 
 
-
+#"test" is a must for unittest, anything else is just for the eye
 __TEST_CASE_PREFIX="test_from_"
 __TEST_CASE_MIDDLE="_for_"
 
@@ -28,6 +26,10 @@ def get_type_name(my_type):
     else:
         return str(my_type)
 
+
+#if self is used in the free function it should have the following signature
+#    my_fun(my_type, self)
+#there is no much sense to add tests via free template function
 def tests_from_free_function(fun, target_cls, types):
     for my_type in types:
         method_name=mangle_name(fun.__name__)+get_type_name(my_type)
@@ -35,14 +37,16 @@ def tests_from_free_function(fun, target_cls, types):
         setattr(target_cls, method_name, lambda self, inner_type=my_type: fun(inner_type) if fun.__code__.co_argcount==1 else fun(inner_type, self))#x=self
 
 
+#the member function should have signature my_fun(self, my_type)
 def tests_from_member(fun, target_cls, types):
     for my_type in types:
         method_name=mangle_name(fun.__name__)+get_type_name(my_type)
         method_name=find_unused_name(method_name, target_cls.__dict__) 
         setattr(target_cls, method_name, lambda x, inner_type=my_type: fun(x, inner_type))#x=self
   
-  
+ 
 __TEMPLATE_PREFIX="template_"  
+
 
 def tests_from_templates(cls, types):
     for name, m in inspect.getmembers(cls, inspect.ismethod):

@@ -20,6 +20,8 @@ class FindUnusedNameTester(unittest.TestCase):
         self.assertEquals(uttemplate.find_unused_name("name", ["name", "name1", "name2", "name33", "name4"]), "name3")
         
         
+        
+        
 class TestFromFreeFunction(unittest.TestCase):
     def test_as_decorator(self):
         class A:
@@ -192,7 +194,9 @@ class TestFromTemplates(unittest.TestCase):
                 else:
                    my_type.__name__+my_type.__name__
                 self.assertEquals(fun(), expected)#it does the right thing
-                             
+    
+    
+##########       self test of decorators:                         
 
 @uttemplate.from_templates([list, set])
 class RunDecoratorTests(unittest.TestCase):
@@ -232,7 +236,7 @@ class TestForTypesDecorator(unittest.TestCase):
          self.assertFalse(my_type in [int, float])         
          
 
-## readme examples:
+################################# readme examples:
 
 def create_test_obj(type4test):
    if(type4test==list):
