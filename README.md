@@ -18,6 +18,39 @@ would result in two different test cases, one for `TypeA` and one for `TypeA`.
 
 This project augments the `unittest` module with a similar functionality.
 
+## Installation
+
+This is a python2.7 module, to run it/test it you need a python2.7 environment, the easiest way is to use the `virtualenv`:
+
+    virtualenv -p python2.7 p27
+    source p27/bin/activate
+    (p27)...
+
+To install the module using `pip` run:
+
+    (p27) pip install https://github.com/realead/uttemplate/zipball/master
+
+It is possible to uninstall it afterwards via
+   
+    (p27) pip uninstall exetest
+
+You can also install using the `setup.py` file from the root directory of the project:
+
+    (p27)  python setup.py install
+
+However, there is no easy way to deinstall it afterwards (only manually) if `setup.py` was used directly.
+
+You could also use the module without installation, by augmenting the python-path via enviroment variable
+
+    export PYTHONPATH="${PYTHONPATH}:<path_to_uttemplate>"
+
+or programmatically, for example with help of
+
+    import sys
+    sys.path.append(path_to_uttemplate)
+
+
+
 ## Usage
 
 There are two ingridients: 
