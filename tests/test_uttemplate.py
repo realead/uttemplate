@@ -1,5 +1,5 @@
 import unittest
-import uttemplate
+import uttemplate.uttemplate as uttemplate
 
  
  
