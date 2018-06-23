@@ -1,6 +1,6 @@
 # uttemplate
 
-creating unit tests from a template
+creating unit tests from a template in python2.7+ or python3.
 
 ## Introduction
 
@@ -20,7 +20,7 @@ This project augments the `unittest` module with a similar functionality.
 
 ## Installation
 
-This is a python2.7 module, to run it/test it you need a python2.7 environment, the easiest way is to use the `virtualenv`:
+To run it/test it you need a python2.7 (or python3) environment, the easiest way is to use the `virtualenv`:
 
     virtualenv -p python2.7 p27
     source p27/bin/activate
