@@ -1,4 +1,7 @@
 import inspect
+import sys
+
+PYTHON_VERSION = sys.version_info[0]# 2 or 3?
 
 
 #finds a name not in dictionary:
@@ -47,9 +50,10 @@ def tests_from_member(fun, target_cls, types):
  
 __TEMPLATE_PREFIX="template_"  
 
+__MEMBER_FILTER = inspect.ismethod if PYTHON_VERSION == 2 else inspect.isfunction
 
 def tests_from_templates(cls, types):
-    for name, m in inspect.getmembers(cls, inspect.ismethod):
+    for name, m in inspect.getmembers(cls, __MEMBER_FILTER):
         if name.startswith(__TEMPLATE_PREFIX):
             for_types = types if not hasattr(m, "uttemplate_types") else m.uttemplate_types
             tests_from_member(m, cls, for_types)
